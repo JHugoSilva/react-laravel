@@ -51,4 +51,46 @@ class EmployeeController extends Controller
         }
         return $response;
     }
+
+    public function get($id)
+    {
+        try {
+            $data = Employee::with('role')->find($id);
+            if ($data) {
+                $response['data'] = $data;
+                $response['message'] = 'Carregado com sucesso!';
+                $response['success'] = true;
+            } else {
+                $response['data'] = null;
+                $response['message'] = 'Erro no Carregamento!' . $id;
+                $response['success'] = false;
+            }
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['success'] = false;
+        }
+        return $response;
+    }
+
+    public function update(Request $request, $id)
+    {
+        try {
+
+            $data['name_lastname'] = $request['name'];
+            $data['email'] = $request['email'];
+            $data['city'] = $request['city'];
+            $data['direction'] = $request['address'];
+            $data['phone'] = $request['phone'];
+            $data['rol'] = $request['rol'];
+
+            Employee::where('id', $id)->update($data);
+
+            $response['message'] = "Update Successful";
+            $response['success'] = true;
+        } catch (\Exception $e) {
+            $response['message'] = $e->getMessage();
+            $response['success'] = false;
+        }
+        return $response;
+    }
 }

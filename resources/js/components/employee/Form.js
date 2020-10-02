@@ -10,9 +10,8 @@ function Form() {
     const [address, setAddress] = useState(null)
     const [phone, setPhone] = useState(null)
     const [rol, setRol] = useState(null)
-
-
     const [listRol, setListRol] = useState([])
+
     useEffect(() => {
         async function fetchDataRol() {
             const res = await employeeService.listRol()
